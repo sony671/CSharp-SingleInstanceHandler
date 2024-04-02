@@ -9,11 +9,13 @@ using SingleInstance;
 public MainWindow()
 {
 
-  // If this is not the first instance of the program, then exit (using Environment.Exit(0)) and send startup arguments to the first instance.
+  // If this is not the first instance of the program, then exit (using Environment.Exit(0))
   // By adding "true", this instance will send all startup arguments to the first instance.
   SingleInstanceHandler.LaunchOrExit("MyApplicationName", true);
 
-  // Adds an event listener if this instance is the first one to call LaunchOrExit or CheckAndLaunch.
+  // Adds an event listener. If this instance is the first one to call LaunchOrExit or CheckAndLaunch.
+  // This event is triggered when other instance are calling LaunchOrExit or CheckAndLaunch
+  // and are passing on start arguments.
   SingleInstanceHandler.OnReceiveArgsEvent += OnReceiveArgs;
 
 
