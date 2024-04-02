@@ -1,7 +1,7 @@
 # CSharp-SingleInstanceHandler
 C# Application Single Instance
-SingleInstanceHandler allows you to easly handle Single instance of your application.
-By only few lines of code you can allow only one Instance and if you want to you can pass on start arguments to the first instance of the program.
+SingleInstanceHandler allows you to easily handle Single instances of your application.
+By only a few lines of code you can allow only one Instance and if you want to you can pass on start arguments to the first instance of the program.
 
 ### Exampel 1
 ```csharp
@@ -10,11 +10,11 @@ using SingleInstance;
 public MainWindow()
 {
 
-  //if not first instance of the program then exit (using Environment.Exit(0)) and sends start args to the first Instance
-  // By adding "true" this instance whill send all start arguments to the first Instance.
+  // If this is not the first instance of the program, then exit (using Environment.Exit(0)) and send startup arguments to the first instance.
+  // By adding "true", this instance will send all startup arguments to the first instance.
   SingleInstanceHandler.LaunchOrExit("MyApplicationName", true);
 
-  // Adds a event lisiner it this instance is the first istanee in order to resive start args.
+  // Adds an event listener if this instance is the first one to call LaunchOrExit or CheckAndLaunch.
   SingleInstanceHandler.OnReceiveArgsEvent += OnReceiveArgs;
 
 
@@ -24,7 +24,7 @@ public MainWindow()
 
 private static void OnReceiveArgs(string[] SenderArgs)
 {
-  Console.WriteLine($"Received args from other instance. Args are '{string.Join(",", SenderArgs)}'");
+  Console.WriteLine($"Received arguments from another instance. Arguments are '{string.Join(",", SenderArgs)}'");
 }
 ```
 
@@ -34,8 +34,8 @@ using SingleInstance;
 
 public MainWindow()
 {
-  // Checks only if this application is the first istance.
-  // You can add "true" if you want to send start arguments to the first instance if curent instance are not the first.
+  // Checks if this application is the first instance only.
+  // You can add "true" if you want to send startup arguments to the first instance if the current instance is not the first.
   if (SingleInstanceHandler.CheckAndLaunch("MyApplicationName"))
   {
     //This is the first instance
