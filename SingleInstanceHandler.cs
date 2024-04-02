@@ -8,14 +8,14 @@ using System.Threading;
 namespace SingleInstance
 {
     /// <summary>
-    /// Handels single instance of this application. Can call first instance
+    /// Handles single instance of this application. Can call the first instance.
     /// </summary>
     public static class SingleInstanceHandler
     {
         public delegate void InstanceEvent(string[] SenderArgs);
 
         /// <summary>
-        /// If the program receives a call from other Instance, then this <see cref="InstanceEvent"/> is called
+        /// If the program receives a call from another Instance, then this <see cref="InstanceEvent"/> is called.
         /// </summary>
         public static event InstanceEvent OnReceiveArgsEvent;
 
@@ -24,11 +24,11 @@ namespace SingleInstance
         private static NamedPipeServerStream ServerStream = null;
 
         /// <summary>
-        /// Returns if the application are first Instance else <see cref="Environment.Exit(int)"/> the program. If SendLineArgs the the programs args are sent to the first Instance.
+        /// Returns if the application is the first Instance else <see cref="Environment.Exit(int)"/> the program. If SendLineArgs then the program's args are sent to the first Instance.
         /// </summary>
-        /// <param name="ApplicationId">A id of the application. It can be the name of the application. This is used to find a instance of this program</param>
-        /// <param name="SendLineArgs">If true the Command line arguments are sent to the first Instance</param>
-        /// <exception cref="ArgumentNullException">If ApplicationId is null or empty</exception>
+        /// <param name="ApplicationId">An id of the application. It can be the name of the application. This is used to find an instance of this program.</param>
+        /// <param name="SendLineArgs">If true, the Command line arguments are sent to the first Instance.</param>
+        /// <exception cref="ArgumentNullException">If ApplicationId is null or empty.</exception>    
         public static void LaunchOrExit(string ApplicationId, bool SendLineArgs=true)
         {
             if (string.IsNullOrWhiteSpace(ApplicationId))
@@ -48,12 +48,12 @@ namespace SingleInstance
             Environment.Exit(0);
         }
         /// <summary>
-        /// Returns True if the application are the first Instance else false. If SendLineArgs the the programs args are sent to the first Instance.
+        /// Returns True if the application is the first Instance else false. If SendLineArgs then the program's args are sent to the first Instance.
         /// </summary>
-        /// <param name="ApplicationId">A id of the application. It can be the name of the application. This is used to find a instance of this program</param>
-        /// <param name="SendLineArgs">If true the Command line arguments are sent to the first Instance</param>
+        /// <param name="ApplicationId">An id of the application. It can be the name of the application. This is used to find an instance of this program.</param>
+        /// <param name="SendLineArgs">If true, the Command line arguments are sent to the first Instance.</param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException">If ApplicationId is null or empty</exception>
+        /// <exception cref="ArgumentNullException">If ApplicationId is null or empty.</exception>
         public static bool CheckAndLaunch(string ApplicationId, bool SendLineArgs = true)
         {
             if (string.IsNullOrWhiteSpace(ApplicationId))
@@ -91,7 +91,7 @@ namespace SingleInstance
 
 
         /// <summary>
-        ///     Uses a named pipe to send the currently parsed options to an already running instance.
+        ///     Uses named pipe to send the currently arguments to an already running instance.
         /// </summary>
         /// <param name="namedPipePayload"></param>
         private static void SendArgsToInstance(string[] args)
@@ -109,13 +109,13 @@ namespace SingleInstance
             }
             catch (Exception)// Error when connecting/sending. 
             {
-                // ignores all Exception.
+                // Ignores all Exception.
             }
         }
 
 
         /// <summary>
-        /// Sets upp the NamedPipeServerStream used to receive args 
+        /// Sets up the NamedPipeServerStream used to receive arguments. 
         /// </summary>
         private static void ActivateReceive()
         {
@@ -130,7 +130,7 @@ namespace SingleInstance
             ServerStream.BeginWaitForConnection(OnReceive, ServerStream);
         }
         /// <summary>
-        /// Calls OnReceiveArgsEvent and gives the args
+        /// Calls OnReceiveArgsEvent and gives the arguments
         /// </summary>
         /// <param name="AsyncResult"></param>
         private static void OnReceive(IAsyncResult AsyncResult)
@@ -148,7 +148,7 @@ namespace SingleInstance
             }
             catch (Exception) // Error when receiving data
             {
-                // ignores all Exception.
+                // Ignores all Exception.
             }
         }
     }
