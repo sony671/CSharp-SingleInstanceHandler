@@ -1,5 +1,4 @@
 # CSharp-SingleInstanceHandler
-C# Application Single Instance
 SingleInstanceHandler allows you to easily handle Single instances of your application.
 By only a few lines of code you can allow only one Instance and if you want to you can pass on start arguments to the first instance of the program.
 
