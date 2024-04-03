@@ -23,9 +23,18 @@ public MainWindow()
   InitializeComponent();
 }
 
+
+// Warning this code is not running on the main thread! UI calls will not working unless invoked.
 private static void OnReceiveArgs(string[] SenderArgs)
 {
   Console.WriteLine($"Received arguments from another instance. Arguments are '{string.Join(",", SenderArgs)}'");
+
+  // Runs your code on the main thread. 
+  Dispatcher.Invoke(() =>
+  {
+      //Calls your function on the main thread. UI code works inside the Dispatcher
+      MyUIFunction(SenderArgs);
+  });
 }
 ```
 
