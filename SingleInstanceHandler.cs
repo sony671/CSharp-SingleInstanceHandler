@@ -1,6 +1,7 @@
 using System;
 using System.IO.Pipes;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Runtime.Serialization.Json;
 using System.Threading;
 
@@ -19,17 +20,21 @@ namespace SingleInstance
         /// </summary>
         public static event InstanceEvent OnReceiveArgsEvent;
 
+        /// <summary>
+        /// This apps Id
+        /// </summary>
         private static string InstanceApplicationId = null;
         private static bool? IsFirstInstance = null;
         private static NamedPipeServerStream ServerStream = null;
+        private static Mutex InstanceSection = null;
 
         /// <summary>
         /// Returns if the application is the first Instance else <see cref="Environment.Exit(int)"/> the program. If SendLineArgs then the program's args are sent to the first Instance.
         /// </summary>
         /// <param name="ApplicationId">An id of the application. It can be the name of the application. This is used to find an instance of this program.</param>
         /// <param name="SendLineArgs">If true, the Command line arguments are sent to the first Instance.</param>
-        /// <exception cref="ArgumentNullException">If ApplicationId is null or empty.</exception>    
-        public static void LaunchOrExit(string ApplicationId, bool SendLineArgs=true)
+        /// <exception cref="ArgumentNullException">If ApplicationId is null or empty.</exception> 
+        public static void LaunchOrExit(string ApplicationId, bool SendLineArgs = true)
         {
             if (string.IsNullOrWhiteSpace(ApplicationId))
                 throw new ArgumentNullException(nameof(ApplicationId));
@@ -84,7 +89,7 @@ namespace SingleInstance
                 return IsFirstInstance.Value;
 
 
-            _ = new Mutex(true, ApplicationId, out bool Instance);
+            InstanceSection = new Mutex(true, ApplicationId, out bool Instance);
             IsFirstInstance = Instance;
             return IsFirstInstance.Value;
         }
@@ -109,7 +114,7 @@ namespace SingleInstance
             }
             catch (Exception)// Error when connecting/sending. 
             {
-                // Ignores all Exception.
+                // ignores all Exception.
             }
         }
 
@@ -148,7 +153,7 @@ namespace SingleInstance
             }
             catch (Exception) // Error when receiving data
             {
-                // Ignores all Exception.
+                // ignores all Exception.
             }
         }
     }
