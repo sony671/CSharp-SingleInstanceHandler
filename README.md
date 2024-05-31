@@ -55,3 +55,8 @@ public MainWindow()
   InitializeComponent();
 }
 ```
+
+
+
+> [!NOTE]
+> This project requers **System.Runtime.Serialization** in your references in order for to use **_System.Runtime.Serialization.Json_**
